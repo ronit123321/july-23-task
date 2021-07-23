@@ -1,33 +1,34 @@
+import { AppState } from '../../models/state';
 import { APP_CONSTANTS } from '../constants';
 
-const initialState = {
+const initialState: AppState = {
   moviesList: [],
   searchCriteria: '',
   selectedMovieDetails: null,
 };
 
-const updateMoviesList = (state: any, action: any) => {
+const updateMoviesList = (state: AppState, action: any): AppState => {
   return {
     ...state,
     moviesList: action.payload,
   };
 };
 
-const updateSearchCriteria = (state: any, action: any) => {
+const updateSearchCriteria = (state: AppState, action: any): AppState => {
   return {
     ...state,
     searchCriteria: action.payload,
   };
 };
 
-const updateMovieDetails = (state: any, action: any) => {
+const updateMovieDetails = (state: AppState, action: any): AppState => {
   return {
     ...state,
     selectedMovieDetails: action.payload,
   };
 };
 
-export default function toDoApp(state = initialState, action: any) {
+export default function toDoApp(state: AppState = initialState, action: any) {
   switch (action.type) {
     case APP_CONSTANTS.UPDATE_MOVIES_LIST:
       return updateMoviesList(state, action);
