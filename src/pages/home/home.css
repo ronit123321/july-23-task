@@ -8,9 +8,6 @@
 .grid-container {
   display: grid;
   grid-gap: 1em;
-  height: 90vh;
-  overflow-y: auto;
-  overflow-x: hidden;
 }
 
 .empty-page {

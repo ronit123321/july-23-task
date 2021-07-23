@@ -5,37 +5,65 @@ import { SearchBar } from '../../components/searchbar';
 import {
   loadMovieDetails,
   loadMoviesList,
+  resetMovieList,
   updateMovieDetail,
+  updatePageNumber,
   updateSearchCriteria,
 } from '../../store/actions';
 import { DetailsPage } from '../../components/details';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import './home.css';
+import { AppState } from '../../models/state';
+import { MovieQuickInfo } from '../../models/moviesQuery';
+import { MovieDetail } from '../../models/movie';
+import { ScrolableBody } from '../../components/styled-components/home-styled.components';
 
 function Home() {
   const dispatch = useDispatch();
 
   const [selectedMovie, setSelectedMovie] = React.useState<any | null>(null);
 
-  const moviesList = useSelector((state: any) => state.moviesList);
-  const searchCriteria = useSelector((state: any) => state.searchCriteria);
-  const movieDetails = useSelector((state: any) => state.selectedMovieDetails);
+  const moviesList = useSelector((state: AppState) => state.moviesList);
+  const searchCriteria = useSelector((state: AppState) => state.searchCriteria);
+  const movieDetails = useSelector(
+    (state: AppState) => state.selectedMovieDetails
+  );
+  const pageNumber = useSelector((state: AppState) => state.pageNumber);
+  const totalResults = useSelector((state: AppState) => state.totalResults);
 
   React.useEffect(() => {
-    dispatch(loadMoviesList(searchCriteria));
-  }, [dispatch, searchCriteria]);
+    if (pageNumber === 1)
+      dispatch(loadMoviesList(searchCriteria, pageNumber, false));
+    else dispatch(loadMoviesList(searchCriteria, pageNumber, true));
+  }, [searchCriteria, pageNumber]);
 
   const displayContent = (): React.ReactChild => {
     if (moviesList.length) {
-      return moviesList.map((movie: any) => (
-        <Card
-          movie={movie}
-          key={movie.imdbID}
-          cardClicked={(movie: any) => {
-            dispatch(loadMovieDetails(movie.imdbID));
-            setSelectedMovie(movie);
-          }}
-        />
-      ));
+      return (
+        <ScrolableBody id="scrollableDiv">
+          <InfiniteScroll
+            dataLength={moviesList.length}
+            next={() => {
+              dispatch(updatePageNumber(pageNumber + 1));
+            }}
+            hasMore={moviesList.length < totalResults}
+            inverse={false}
+            loader={<h4>Loading...</h4>}
+            scrollableTarget="scrollableDiv"
+          >
+            {moviesList.map((movie: any) => (
+              <Card
+                movie={movie}
+                key={movie.imdbID}
+                cardClicked={(movie: MovieQuickInfo) => {
+                  dispatch(loadMovieDetails(movie.imdbID));
+                  setSelectedMovie(movie);
+                }}
+              />
+            ))}
+          </InfiniteScroll>
+        </ScrolableBody>
+      );
     } else {
       if (searchCriteria === '') {
         return (
@@ -56,7 +84,7 @@ function Home() {
   const displayMovieDetails = (): React.ReactChild => {
     return (
       <DetailsPage
-        movie={movieDetails}
+        movie={movieDetails as MovieDetail}
         closeDetails={() => {
           setSelectedMovie(null);
           dispatch(updateMovieDetail(null));
@@ -70,12 +98,14 @@ function Home() {
       <SearchBar
         onSearch={(value: string) => {
           setSelectedMovie(null);
-          dispatch(updateMovieDetail(null));
+          dispatch(resetMovieList())
           dispatch(updateSearchCriteria(value));
         }}
       />
       {!selectedMovie && (
-        <div className={moviesList.length ? 'grid-container' : ''}>{displayContent()}</div>
+        <div className={moviesList.length ? 'grid-container' : ''}>
+          {displayContent()}
+        </div>
       )}
       {movieDetails && <div>{displayMovieDetails()}</div>}
     </div>

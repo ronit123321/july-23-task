@@ -5,4 +5,6 @@ export interface AppState {
   moviesList: MovieQuickInfo[];
   searchCriteria: string;
   selectedMovieDetails: MovieDetail | null;
+  pageNumber: number;
+  totalResults: number;
 }

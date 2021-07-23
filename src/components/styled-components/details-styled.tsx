@@ -2,7 +2,9 @@ import styled from 'styled-components';
 
 export const DetailsWrapper = styled.div`
   display: grid;
-  grid-template-columns: 30% 70%;
+  grid-template-columns: 40% 60%;
+  max-height: 75vh;
+  overflow: auto;
 `;
 
 export const SidebarWrapper = styled.aside`

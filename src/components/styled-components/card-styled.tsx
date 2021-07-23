@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-export const CardWrapper = styled.div``;
+export const CardWrapper = styled.div`
+  margin: 4px;
+`;
 
 export const CardContent = styled.div`
   display: grid;
