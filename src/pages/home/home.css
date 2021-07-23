@@ -1,19 +1,24 @@
 .content-wrapper {
   margin: 0 auto;
   padding: 1em;
+  background: #141414;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  color: white
 }
 .grid-container {
   display: grid;
   grid-gap: 1em;
 }
 
-/* Grid changes on medium sized screens */
+/* Grid changes on   sized screens */
 @media screen and (min-width: 500px) {
   .grid-container {
     grid-template-columns: repeat(2, 1fr);
   }
   .content-wrapper {
-    max-width: 75vw;
+    max-width: 100vw;
   }
 }
 
@@ -23,6 +28,6 @@
     grid-template-columns: repeat(3, 1fr);
   }
   .content-wrapper {
-    max-width: 50vw;
+    max-width: 100vw;
   }
 }

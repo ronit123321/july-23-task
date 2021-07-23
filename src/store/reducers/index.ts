@@ -1,29 +1,40 @@
-import { ADD_TODO, RENDER_TODO_LIST } from '../constants';
+import { APP_CONSTANTS } from '../constants';
 
 const initialState = {
-  toDoList: [],
+  moviesList: [],
+  searchCriteria: '',
+  selectedMovieDetails: null,
+};
+
+const updateMoviesList = (state: any, action: any) => {
+  return {
+    ...state,
+    moviesList: action.payload,
+  };
+};
+
+const updateSearchCriteria = (state: any, action: any) => {
+  return {
+    ...state,
+    searchCriteria: action.payload,
+  };
+};
+
+const updateMovieDetails = (state: any, action: any) => {
+  return {
+    ...state,
+    selectedMovieDetails: action.payload,
+  };
 };
 
 export default function toDoApp(state = initialState, action: any) {
   switch (action.type) {
-    case ADD_TODO:
-      let newToDoList = [
-        ...state.toDoList,
-        {
-          ...action.toDoItem,
-        },
-      ];
-      return {
-        ...state,
-        toDoList: newToDoList,
-      };
-
-    case RENDER_TODO_LIST:
-      return {
-        ...state,
-        toDoList: action.toDoList,
-      };
-
+    case APP_CONSTANTS.UPDATE_MOVIES_LIST:
+      return updateMoviesList(state, action);
+    case APP_CONSTANTS.UPDATE_SEARCH_CRITERIA:
+      return updateSearchCriteria(state, action);
+    case APP_CONSTANTS.UPDATE_MOVIE_DETAILS:
+      return updateMovieDetails(state, action);
     default:
       return state;
   }
