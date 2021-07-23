@@ -33,13 +33,35 @@ const movieInfo = {
 };
 
 describe('details component', () => {
+  const closeDetailsMock = jest.fn();
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   test('display movie complete info', () => {
-    const component = render(<DetailsPage movie={movieInfo} />);
-
-    
+    const component = render(
+      <DetailsPage movie={movieInfo} closeDetails={closeDetailsMock} />
+    );
+    expect(
+      component.container.querySelector(`#movie-title-${movieInfo.imdbID}`)
+        ?.textContent
+    ).toBe(`${movieInfo.Title} (${movieInfo.Year})`);
   });
+
+  test('should emit close details view on click', () => {
+    const component = render(
+      <DetailsPage movie={movieInfo} closeDetails={closeDetailsMock} />
+    );
+
+    const backBtn = component.container.querySelector(
+      `#movie-detail-poster-${movieInfo.imdbID}`
+    ) as HTMLImageElement;
+
+    fireEvent.click(backBtn);
+
+    expect(closeDetailsMock).toHaveBeenCalled()
+
+  })
+
 });

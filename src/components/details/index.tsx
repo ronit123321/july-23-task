@@ -14,15 +14,16 @@ import backIcon from '../../assets/close.png'
 
 type DetailsPageType = {
   movie: MovieDetail;
+  closeDetails:() => void
 };
 
-export const DetailsPage: React.FC<DetailsPageType> = ({ movie }) => {
+export const DetailsPage: React.FC<DetailsPageType> = ({ movie, closeDetails }) => {
   return (
     <div id="movie-info-view">
       <div>
         <ImageWrapper src={movie.Poster} alt="" />
         <BackIcon>
-          <BackIconImg src={backIcon} alt=""/>
+          <BackIconImg id={`movie-detail-poster-${movie.imdbID}`} src={backIcon} alt="" onClick={() => closeDetails()}/>
         </BackIcon>
       </div>
 

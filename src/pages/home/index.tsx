@@ -46,7 +46,15 @@ function Home() {
   };
 
   const displayMovieDetails = (): React.ReactChild => {
-    return <DetailsPage movie={movieDetails} />;
+    return (
+      <DetailsPage
+        movie={movieDetails}
+        closeDetails={() => {
+          setSelectedMovie(null);
+          dispatch(updateMovieDetail(null));
+        }}
+      />
+    );
   };
 
   return (
