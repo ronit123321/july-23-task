@@ -59,7 +59,7 @@ describe('homepage', () => {
     expect(component.container.querySelector('#invalid-search')).toBe(null);
     expect(component.container.querySelector('#no-search')).not.toBe(null);
     expect(component.container.querySelector('#no-search')?.textContent).toBe(
-      'Enter Search Value'
+      'Enter Movie Title To Search'
     );
   });
 

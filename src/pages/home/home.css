@@ -3,13 +3,19 @@
   padding: 1em;
   background: #141414;
   height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
   color: white
 }
 .grid-container {
   display: grid;
   grid-gap: 1em;
+  height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.empty-page {
+  text-align: center;
+  padding-top: 40px;
 }
 
 /* Grid changes on   sized screens */

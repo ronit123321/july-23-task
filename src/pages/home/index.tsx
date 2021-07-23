@@ -38,9 +38,17 @@ function Home() {
       ));
     } else {
       if (searchCriteria === '') {
-        return <div id="no-search">Enter Search Value</div>;
+        return (
+          <div className="empty-page" id="no-search">
+            Enter Movie Title To Search
+          </div>
+        );
       } else {
-        return <div id="invalid-search">No Results Found</div>;
+        return (
+          <div className="empty-page" id="invalid-search">
+            No Results Found
+          </div>
+        );
       }
     }
   };
@@ -67,7 +75,7 @@ function Home() {
         }}
       />
       {!selectedMovie && (
-        <div className="grid-container">{displayContent()}</div>
+        <div className={moviesList.length ? 'grid-container' : ''}>{displayContent()}</div>
       )}
       {movieDetails && <div>{displayMovieDetails()}</div>}
     </div>
