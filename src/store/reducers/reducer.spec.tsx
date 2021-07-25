@@ -66,7 +66,7 @@ describe('movieApp', () => {
   test('refreshMoviesList', () => {
     const newState = movieApp(initialStore, {
       type: APP_CONSTANTS.UPDATE_MOVIES_LIST,
-      payload: moviesListA
+      payload: moviesListA,
     });
 
     expect(newState).toStrictEqual({
@@ -79,82 +79,82 @@ describe('movieApp', () => {
   });
 
   test('addPagedMovieListData', () => {
-    initialStore.moviesList = moviesListA
+    initialStore.moviesList = moviesListA;
     const newState = movieApp(initialStore, {
-        type: APP_CONSTANTS.UPDATE_MOVIES_LIST_PAGINATED,
-        payload: moviesListB
-      });
-  
-      expect(newState).toStrictEqual({
-        moviesList: moviesListA.concat(moviesListB),
-        searchCriteria: '',
-        selectedMovieDetails: null,
-        pageNumber: 1,
-        totalResults: 0,
-      });
+      type: APP_CONSTANTS.UPDATE_MOVIES_LIST_PAGINATED,
+      payload: moviesListB,
+    });
+
+    expect(newState).toStrictEqual({
+      moviesList: moviesListA.concat(moviesListB),
+      searchCriteria: '',
+      selectedMovieDetails: null,
+      pageNumber: 1,
+      totalResults: 0,
+    });
   });
 
   test('updateSearchCriteria', () => {
-    initialStore.moviesList = moviesListA
+    initialStore.moviesList = moviesListA;
     const newState = movieApp(initialStore, {
-        type: APP_CONSTANTS.UPDATE_SEARCH_CRITERIA,
-        payload: 'test'
-      });
-  
-      expect(newState).toStrictEqual({
-        moviesList: moviesListA,
-        searchCriteria: 'test',
-        selectedMovieDetails: null,
-        pageNumber: 1,
-        totalResults: 0,
-      });
+      type: APP_CONSTANTS.UPDATE_SEARCH_CRITERIA,
+      payload: 'test',
+    });
+
+    expect(newState).toStrictEqual({
+      moviesList: moviesListA,
+      searchCriteria: 'test',
+      selectedMovieDetails: null,
+      pageNumber: 1,
+      totalResults: 0,
+    });
   });
 
   test('updateMovieDetails', () => {
-    initialStore.moviesList = moviesListB
+    initialStore.moviesList = moviesListB;
     const newState = movieApp(initialStore, {
-        type: APP_CONSTANTS.UPDATE_MOVIE_DETAILS,
-        payload: moviesListB[0]
-      });
-  
-      expect(newState).toStrictEqual({
-        moviesList: moviesListB,
-        searchCriteria: '',
-        selectedMovieDetails: moviesListB[0],
-        pageNumber: 1,
-        totalResults: 0,
-      });
+      type: APP_CONSTANTS.UPDATE_MOVIE_DETAILS,
+      payload: moviesListB[0],
+    });
+
+    expect(newState).toStrictEqual({
+      moviesList: moviesListB,
+      searchCriteria: '',
+      selectedMovieDetails: moviesListB[0],
+      pageNumber: 1,
+      totalResults: 0,
+    });
   });
 
   test('updateTotalResult', () => {
-    initialStore.totalResults = 10
+    initialStore.totalResults = 10;
     const newState = movieApp(initialStore, {
-        type: APP_CONSTANTS.UPDATE_TOTAL_MOVIES,
-        payload: 100
-      });
-  
-      expect(newState).toStrictEqual({
-        moviesList: [],
-        searchCriteria: '',
-        selectedMovieDetails: null,
-        pageNumber: 1,
-        totalResults: 100,
-      });
+      type: APP_CONSTANTS.UPDATE_TOTAL_MOVIES,
+      payload: 100,
+    });
+
+    expect(newState).toStrictEqual({
+      moviesList: [],
+      searchCriteria: '',
+      selectedMovieDetails: null,
+      pageNumber: 1,
+      totalResults: 100,
+    });
   });
 
   test('updatePageNumber', () => {
-    initialStore.pageNumber = 10
+    initialStore.pageNumber = 10;
     const newState = movieApp(initialStore, {
-        type: APP_CONSTANTS.UPDATE_PAGE_NUMBER,
-        payload: 3
-      });
-  
-      expect(newState).toStrictEqual({
-        moviesList: [],
-        searchCriteria: '',
-        selectedMovieDetails: null,
-        pageNumber: 3,
-        totalResults: 0,
-      });
+      type: APP_CONSTANTS.UPDATE_PAGE_NUMBER,
+      payload: 3,
+    });
+
+    expect(newState).toStrictEqual({
+      moviesList: [],
+      searchCriteria: '',
+      selectedMovieDetails: null,
+      pageNumber: 3,
+      totalResults: 0,
+    });
   });
 });

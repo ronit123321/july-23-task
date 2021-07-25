@@ -78,7 +78,7 @@ export default function movieApp(state: AppState = initialState, action: any) {
     case APP_CONSTANTS.UPDATE_PAGE_NUMBER:
       return updatePageNumber(state, action);
     case APP_CONSTANTS.RESET_MOVIE_LIST:
-      return resetMoviesList(state)
+      return resetMoviesList(state);
     default:
       return state;
   }
