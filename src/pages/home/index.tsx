@@ -35,7 +35,7 @@ function Home() {
     if (pageNumber === 1)
       dispatch(loadMoviesList(searchCriteria, pageNumber, false));
     else dispatch(loadMoviesList(searchCriteria, pageNumber, true));
-  }, [searchCriteria, pageNumber]);
+  }, [dispatch, searchCriteria, pageNumber]);
 
   const displayContent = (): React.ReactChild => {
     if (moviesList.length) {
@@ -51,16 +51,18 @@ function Home() {
             loader={<h4>Loading...</h4>}
             scrollableTarget="scrollableDiv"
           >
-            {moviesList.map((movie: any) => (
-              <Card
-                movie={movie}
-                key={movie.imdbID}
-                cardClicked={(movie: MovieQuickInfo) => {
-                  dispatch(loadMovieDetails(movie.imdbID));
-                  setSelectedMovie(movie);
-                }}
-              />
-            ))}
+            <div className={moviesList.length ? 'grid-container' : ''}>
+              {moviesList.map((movie: any) => (
+                <Card
+                  movie={movie}
+                  key={movie.imdbID}
+                  cardClicked={(movie: MovieQuickInfo) => {
+                    dispatch(loadMovieDetails(movie.imdbID));
+                    setSelectedMovie(movie);
+                  }}
+                />
+              ))}
+            </div>
           </InfiniteScroll>
         </ScrolableBody>
       );
@@ -98,15 +100,11 @@ function Home() {
       <SearchBar
         onSearch={(value: string) => {
           setSelectedMovie(null);
-          dispatch(resetMovieList())
+          dispatch(resetMovieList());
           dispatch(updateSearchCriteria(value));
         }}
       />
-      {!selectedMovie && (
-        <div className={moviesList.length ? 'grid-container' : ''}>
-          {displayContent()}
-        </div>
-      )}
+      {!selectedMovie && <>{displayContent()}</>}
       {movieDetails && <div>{displayMovieDetails()}</div>}
     </div>
   );

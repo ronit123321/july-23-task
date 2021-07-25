@@ -14,6 +14,8 @@ export const CardPoster = styled.img`
     max-height: 30vh;
     vertical-align: middle;
     cursor: pointer;
+    min-width: 200px;
+    min-height: 200px;
 `;
 
 export const CardInfoWrapper = styled.div`
