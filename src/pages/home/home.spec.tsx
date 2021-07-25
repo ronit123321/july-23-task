@@ -116,14 +116,18 @@ describe('homepage', () => {
 
     expect(component.container.querySelector('#no-search')).toBe(null);
     expect(component.container.querySelector('#invalid-search')).toBe(null);
-    expect(component.container.querySelector('#movie-info-view')).not.toBe(null);
+    expect(component.container.querySelector('#movie-info-view')).not.toBe(
+      null
+    );
   });
 
-  test('should dispatch fetch list event on page load', () => {
+  test('should dispatch fetch movie list and replace state with new data', () => {
     store = mockStore({
       moviesList: [],
       searchCriteria: '',
       selectedMovieDetails: null,
+      pageNumber: 1,
+      totalResults: 0,
     });
 
     render(
@@ -134,7 +138,36 @@ describe('homepage', () => {
 
     expect(store.getActions()[0]).toStrictEqual({
       type: 'LOAD_MOVIES_LIST',
-      payload: '',
+      payload: {
+        page: 1,
+        paginatedRequest: false,
+        searchCriteria: '',
+      },
+    });
+  });
+
+  test('should dispatch fetch movie list and append state with new data', () => {
+    store = mockStore({
+      moviesList: [],
+      searchCriteria: '',
+      selectedMovieDetails: null,
+      pageNumber: 2,
+      totalResults: 0,
+    });
+
+    render(
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    );
+
+    expect(store.getActions()[0]).toStrictEqual({
+      type: 'LOAD_MOVIES_LIST',
+      payload: {
+        page: 2,
+        paginatedRequest: true,
+        searchCriteria: '',
+      },
     });
   });
 
@@ -164,11 +197,14 @@ describe('homepage', () => {
 
     expect(store.getActions()[0]).toStrictEqual({
       type: 'LOAD_MOVIES_LIST',
-      payload: '',
+      payload: {
+        page: undefined,
+        paginatedRequest: true,
+        searchCriteria: '',
+      },
     });
     expect(store.getActions()[1]).toStrictEqual({
-      type: 'UPDATE_MOVIE_DETAILS',
-      payload: null,
+      type: 'RESET_MOVIE_LIST',
     });
     expect(store.getActions()[2]).toStrictEqual({
       type: 'UPDATE_SEARCH_CRITERIA',
@@ -197,12 +233,89 @@ describe('homepage', () => {
 
     expect(store.getActions()[0]).toStrictEqual({
       type: 'LOAD_MOVIES_LIST',
-      payload: 'esd',
+      payload: {
+        page: undefined,
+        paginatedRequest: true,
+        searchCriteria: 'esd',
+      },
     });
 
     expect(store.getActions()[1]).toStrictEqual({
       type: 'LOAD_MOVIES_DETAILS_BY_ID',
       payload: 'tt0092942',
+    });
+  });
+
+  test('should emit load more results on hasMore condition', () => {
+    store = mockStore({
+      moviesList,
+      searchCriteria: 'test',
+      selectedMovieDetails: null,
+      pageNumber: 1,
+      totalResults: 100,
+    });
+
+    const component = render(
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    );
+
+    const scrollEl = component.container.querySelector(
+      '#scrollableDiv'
+    ) as HTMLDivElement;
+    fireEvent.scroll(scrollEl, { target: { scrollY: 100 } });
+
+    expect(store.getActions()[0]).toStrictEqual({
+      type: 'LOAD_MOVIES_LIST',
+      payload: {
+        searchCriteria: 'test',
+        page: 1,
+        paginatedRequest: false,
+      },
+    });
+
+    expect(store.getActions()[1]).toStrictEqual({
+      type: 'UPDATE_PAGE_NUMBER',
+      payload: 2,
+    });
+  });
+
+  test('on movie details close request', () => {
+    store = mockStore({
+      moviesList,
+      searchCriteria: 'test',
+      selectedMovieDetails: moviesList[2],
+      pageNumber: 1,
+      totalResults: 100,
+    });
+
+    const component = render(
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    );
+
+    const closeBtn = component.container.querySelector(
+      `#movie-detail-poster-${moviesList[2].imdbID}`
+    ) as HTMLImageElement;
+
+    fireEvent.click(closeBtn);
+
+    console.log(store.getActions());
+
+    expect(store.getActions()[0]).toStrictEqual({
+      type: 'LOAD_MOVIES_LIST',
+      payload: {
+        searchCriteria: 'test',
+        page: 1,
+        paginatedRequest: false,
+      },
+    });
+
+    expect(store.getActions()[1]).toStrictEqual({
+      type: 'UPDATE_MOVIE_DETAILS',
+      payload: null,
     });
   });
 });

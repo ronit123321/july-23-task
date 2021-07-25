@@ -51,7 +51,7 @@ function Home() {
             loader={<h4>Loading...</h4>}
             scrollableTarget="scrollableDiv"
           >
-            <div className={moviesList.length ? 'grid-container' : ''}>
+            <div className='grid-container'>
               {moviesList.map((movie: any) => (
                 <Card
                   movie={movie}
