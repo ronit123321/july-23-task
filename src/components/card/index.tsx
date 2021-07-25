@@ -6,7 +6,7 @@ import {
   CardInfoWrapper,
   CardPoster,
   CardWrapper,
-} from '../styled-components/card-styled';
+} from './card-styled';
 
 type CardType = {
   movie: MovieQuickInfo;

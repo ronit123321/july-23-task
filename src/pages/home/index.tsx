@@ -16,7 +16,7 @@ import './home.css';
 import { AppState } from '../../models/state';
 import { MovieQuickInfo } from '../../models/moviesQuery';
 import { MovieDetail } from '../../models/movie';
-import { ScrolableBody } from '../../components/styled-components/home-styled.components';
+import { ScrolableBody } from './home-styled.components';
 
 function Home() {
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ function Home() {
   }, [dispatch, searchCriteria, pageNumber]);
 
   const displayContent = (): React.ReactChild => {
-    if (moviesList.length) {
+    if (moviesList && moviesList.length) {
       return (
         <ScrolableBody id="scrollableDiv">
           <InfiniteScroll

@@ -9,7 +9,7 @@ import {
   SidebarWrapper,
   BackIcon,
   BackIconImg
-} from '../styled-components/details-styled';
+} from './details-styled';
 import backIcon from '../../assets/close.png'
 
 type DetailsPageType = {
