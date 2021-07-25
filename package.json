@@ -117,7 +117,10 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!src/**/*.d.ts",
-      "!src/models/**"
+      "!src/**/*.stories.tsx",
+      "!src/models/**",
+      "!src/index.tsx",
+      "!src/reportWebVitals.ts"
     ],
     "setupFiles": [
       "react-app-polyfill/jsdom"

@@ -3,6 +3,14 @@ import { render, fireEvent } from '@testing-library/react';
 import configureMockStore from 'redux-mock-store';
 import Home from '.';
 import { Provider } from 'react-redux';
+import {
+  loadMovieDetails,
+  loadMoviesList,
+  resetMovieList,
+  updateMovieDetail,
+  updatePageNumber,
+  updateSearchCriteria,
+} from '../../store/actions';
 
 const moviesList = [
   {
@@ -136,14 +144,7 @@ describe('homepage', () => {
       </Provider>
     );
 
-    expect(store.getActions()[0]).toStrictEqual({
-      type: 'LOAD_MOVIES_LIST',
-      payload: {
-        page: 1,
-        paginatedRequest: false,
-        searchCriteria: '',
-      },
-    });
+    expect(store.getActions()[0]).toStrictEqual(loadMoviesList('', 1, false));
   });
 
   test('should dispatch fetch movie list and append state with new data', () => {
@@ -161,14 +162,7 @@ describe('homepage', () => {
       </Provider>
     );
 
-    expect(store.getActions()[0]).toStrictEqual({
-      type: 'LOAD_MOVIES_LIST',
-      payload: {
-        page: 2,
-        paginatedRequest: true,
-        searchCriteria: '',
-      },
-    });
+    expect(store.getActions()[0]).toStrictEqual(loadMoviesList('', 2, true));
   });
 
   test('should dispatch update search event', () => {
@@ -176,6 +170,7 @@ describe('homepage', () => {
       moviesList: [],
       searchCriteria: '',
       selectedMovieDetails: null,
+      pageNumber: 1
     });
 
     const component = render(
@@ -195,21 +190,9 @@ describe('homepage', () => {
 
     fireEvent.click(buttonEl);
 
-    expect(store.getActions()[0]).toStrictEqual({
-      type: 'LOAD_MOVIES_LIST',
-      payload: {
-        page: undefined,
-        paginatedRequest: true,
-        searchCriteria: '',
-      },
-    });
-    expect(store.getActions()[1]).toStrictEqual({
-      type: 'RESET_MOVIE_LIST',
-    });
-    expect(store.getActions()[2]).toStrictEqual({
-      type: 'UPDATE_SEARCH_CRITERIA',
-      payload: 'test',
-    });
+    expect(store.getActions()[0]).toStrictEqual(loadMoviesList('', 1, false));
+    expect(store.getActions()[1]).toStrictEqual(resetMovieList());
+    expect(store.getActions()[2]).toStrictEqual(updateSearchCriteria('test'));
   });
 
   test('should dispatch movie selected event', () => {
@@ -217,6 +200,7 @@ describe('homepage', () => {
       moviesList,
       searchCriteria: 'esd',
       selectedMovieDetails: null,
+      pageNumber: 1
     });
 
     const component = render(
@@ -231,19 +215,9 @@ describe('homepage', () => {
 
     fireEvent.click(cardEl);
 
-    expect(store.getActions()[0]).toStrictEqual({
-      type: 'LOAD_MOVIES_LIST',
-      payload: {
-        page: undefined,
-        paginatedRequest: true,
-        searchCriteria: 'esd',
-      },
-    });
+    expect(store.getActions()[0]).toStrictEqual(loadMoviesList('esd', 1, false));
 
-    expect(store.getActions()[1]).toStrictEqual({
-      type: 'LOAD_MOVIES_DETAILS_BY_ID',
-      payload: 'tt0092942',
-    });
+    expect(store.getActions()[1]).toStrictEqual(loadMovieDetails('tt0092942'));
   });
 
   test('should emit load more results on hasMore condition', () => {
@@ -266,19 +240,9 @@ describe('homepage', () => {
     ) as HTMLDivElement;
     fireEvent.scroll(scrollEl, { target: { scrollY: 100 } });
 
-    expect(store.getActions()[0]).toStrictEqual({
-      type: 'LOAD_MOVIES_LIST',
-      payload: {
-        searchCriteria: 'test',
-        page: 1,
-        paginatedRequest: false,
-      },
-    });
+    expect(store.getActions()[0]).toStrictEqual(loadMoviesList('test', 1, false));
 
-    expect(store.getActions()[1]).toStrictEqual({
-      type: 'UPDATE_PAGE_NUMBER',
-      payload: 2,
-    });
+    expect(store.getActions()[1]).toStrictEqual(updatePageNumber(2));
   });
 
   test('on movie details close request', () => {
@@ -302,20 +266,8 @@ describe('homepage', () => {
 
     fireEvent.click(closeBtn);
 
-    console.log(store.getActions());
+    expect(store.getActions()[0]).toStrictEqual(loadMoviesList('test', 1, false));
 
-    expect(store.getActions()[0]).toStrictEqual({
-      type: 'LOAD_MOVIES_LIST',
-      payload: {
-        searchCriteria: 'test',
-        page: 1,
-        paginatedRequest: false,
-      },
-    });
-
-    expect(store.getActions()[1]).toStrictEqual({
-      type: 'UPDATE_MOVIE_DETAILS',
-      payload: null,
-    });
+    expect(store.getActions()[1]).toStrictEqual(updateMovieDetail(null));
   });
 });
