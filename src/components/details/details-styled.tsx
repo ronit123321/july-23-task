@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const DetailsWrapper = styled.div`
   display: grid;
   grid-template-columns: 40% 60%;
-  max-height: 75vh;
+  max-height: 40vh;
   overflow: auto;
 `;
 
