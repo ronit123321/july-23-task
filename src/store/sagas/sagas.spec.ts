@@ -27,7 +27,7 @@ describe('rootSaga', () => {
     test('success with refresh', () => {
       gen = fetchMovieList(loadMoviesList('test', 1, false));
       expect(gen.next().value.payload.args[0]).toEqual(
-        'https://www.omdbapi.com/?apikey=b9bd48a6&s=test&type=movie&page=1'
+        'https://www.omdbapi.com/?apikey=b9bd48a6&s=test*&type=movie&page=1'
       );
       expect(gen.next().value).toEqual([]);
       expect(gen.next().value).toEqual(put(updateMoviesList(response)));
@@ -37,7 +37,7 @@ describe('rootSaga', () => {
     test('success with append result', () => {
       gen = fetchMovieList(loadMoviesList('test', 1, true));
       expect(gen.next().value.payload.args[0]).toEqual(
-        'https://www.omdbapi.com/?apikey=b9bd48a6&s=test&type=movie&page=1'
+        'https://www.omdbapi.com/?apikey=b9bd48a6&s=test*&type=movie&page=1'
       );
       expect(gen.next().value).toEqual([]);
       expect(gen.next().value).toEqual(
@@ -48,7 +48,7 @@ describe('rootSaga', () => {
     test('failure', () => {
       gen = fetchMovieList(loadMoviesList('test', 1, false));
       expect(gen.next().value.payload.args[0]).toEqual(
-        'https://www.omdbapi.com/?apikey=b9bd48a6&s=test&type=movie&page=1'
+        'https://www.omdbapi.com/?apikey=b9bd48a6&s=test*&type=movie&page=1'
       );
       expect(gen.throw(Error).value).toEqual(put(updateMoviesList([])));
       expect(gen.next().value).toEqual(put(updateTotalResult(0)));

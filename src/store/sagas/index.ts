@@ -12,7 +12,8 @@ import { extractJSON } from './utils';
 
 export function* fetchMovieList(action: any): any {
   const { searchCriteria, page, paginatedRequest } = action.payload;
-  const endpoint = `https://www.omdbapi.com/?apikey=b9bd48a6&s=${searchCriteria}&type=movie&page=${page}`;
+  const searchWithWildCard = searchCriteria+ '*';
+  const endpoint = `https://www.omdbapi.com/?apikey=b9bd48a6&s=${searchWithWildCard}&type=movie&page=${page}`;
   try {
     const response: any = yield call(fetch, endpoint);
     const data: MoviesQuery = yield extractJSON(response);
