@@ -8,22 +8,27 @@ import {
   InfoWrapper,
   SidebarWrapper,
   BackIcon,
-  BackIconImg
+  BackIconImg,
 } from './details-styled';
-import backIcon from '../../assets/close.png'
+import backIcon from '../../assets/close.png';
 
 type DetailsPageType = {
   movie: MovieDetail;
-  closeDetails:() => void
+  closeDetails: () => void;
 };
 
-export const DetailsPage: React.FC<DetailsPageType> = ({ movie, closeDetails }) => {
+const Detail: React.FC<DetailsPageType> = ({ movie, closeDetails }) => {
   return (
     <div id="movie-info-view">
       <div>
         <ImageWrapper src={movie.Poster} alt="" />
         <BackIcon>
-          <BackIconImg id={`movie-detail-poster-${movie.imdbID}`} src={backIcon} alt="" onClick={() => closeDetails()}/>
+          <BackIconImg
+            id={`movie-detail-poster-${movie.imdbID}`}
+            src={backIcon}
+            alt=""
+            onClick={() => closeDetails()}
+          />
         </BackIcon>
       </div>
 
@@ -80,3 +85,5 @@ export const DetailsPage: React.FC<DetailsPageType> = ({ movie, closeDetails }) 
     </div>
   );
 };
+
+export const DetailsPage = React.memo(Detail);

@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import Card from '.';
+import {Card} from '.';
 
 storiesOf('components/Card)', module).add(
   'basic layout',

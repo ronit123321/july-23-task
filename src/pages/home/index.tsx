@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Card from '../../components/card';
+import { Card } from '../../components/card';
 import { SearchBar } from '../../components/searchbar';
 import {
   loadMovieDetails,
@@ -51,7 +51,7 @@ function Home() {
             loader={<h4>Loading...</h4>}
             scrollableTarget="scrollableDiv"
           >
-            <div className='grid-container'>
+            <div className="grid-container">
               {moviesList.map((movie: any) => (
                 <Card
                   movie={movie}

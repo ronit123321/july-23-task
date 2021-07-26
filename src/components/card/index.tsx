@@ -13,7 +13,7 @@ type CardType = {
   cardClicked: (movie: MovieQuickInfo) => void;
 };
 
-const Card: React.FC<CardType> = ({ movie, cardClicked }) => {
+const CardItem: React.FC<CardType> = ({ movie, cardClicked }) => {
   return (
     <CardWrapper className="movie-card">
       <CardContent className="card-content white-text">
@@ -33,4 +33,4 @@ const Card: React.FC<CardType> = ({ movie, cardClicked }) => {
   );
 };
 
-export default Card;
+export const Card = React.memo(CardItem);
