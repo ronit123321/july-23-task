@@ -5,7 +5,7 @@ import Home from '.';
 import store from '../../store';
 
 storiesOf('pages/Home)', module).add(
-  'No search param provided',
+  'renders home page with store',
   () => {
     return <Provider store={store}>
         <Home/>

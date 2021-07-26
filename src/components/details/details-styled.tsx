@@ -32,17 +32,18 @@ export const InfoContent = styled.span``;
 
 export const BackIcon = styled.a`
   background-color: white;
-  border-radius: 3.6rem;
+  border-radius: 2.6rem;
+  border: 0.2rem solid white;
   cursor: pointer;
   display: inline-block;
   font-size: 2rem;
-  height: 3.6rem;
-  line-height: 3.6rem;
+  height: 2.6rem;
+  line-height: 2.6rem;
   margin: 0;
-  right: 1rem;
+  right: 1.5rem;
   position: absolute;
   text-align: center;
-  width: 3.6rem;
+  width: 2.6rem;
 `;
 
 export const BackIconImg = styled.img`
