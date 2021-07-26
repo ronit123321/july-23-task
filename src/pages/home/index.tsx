@@ -99,6 +99,7 @@ function Home() {
     <div className="content-wrapper">
       <SearchBar
         onSearch={(value: string) => {
+          if(value === searchCriteria) return;
           setSelectedMovie(null);
           dispatch(resetMovieList());
           dispatch(updateSearchCriteria(value));

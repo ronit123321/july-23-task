@@ -195,6 +195,34 @@ describe('homepage', () => {
     expect(store.getActions()[2]).toStrictEqual(updateSearchCriteria('test'));
   });
 
+  test('should not dispatch search event on same params', () => {
+    store = mockStore({
+      moviesList: [],
+      searchCriteria: 'test',
+      selectedMovieDetails: null,
+      pageNumber: 1
+    });
+
+    const component = render(
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    );
+
+    const inputEl = component.container.querySelector(
+      '#search-input'
+    ) as HTMLInputElement;
+    const buttonEl = component.container.querySelector(
+      '#search-button'
+    ) as HTMLButtonElement;
+
+    fireEvent.change(inputEl, { target: { value: 'test' } });
+
+    fireEvent.click(buttonEl);
+    expect(store.getActions().length).toBe(1);
+    expect(store.getActions()[0]).toStrictEqual(loadMoviesList('test', 1, false));
+  });
+
   test('should dispatch movie selected event', () => {
     store = mockStore({
       moviesList,
